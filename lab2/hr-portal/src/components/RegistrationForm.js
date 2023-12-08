@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import styled from '@emotion/styled';
+import { registrarion } from './api';
+
 
 const FormContainer = styled.div`
   display: ${(props) => (props.isVisible ? 'block' : 'none')};
@@ -13,20 +14,8 @@ const RegistrationForm = ({ isVisible, onClose, onSwitchToLogin }) => {
   const handleRegistration = async (e) => {
     e.preventDefault();
 
-    try {
-      // Отправка данных на сервер для регистрации
-      const response = await axios.post('http://localhost:3000/register', {
-        username,
-        password,
-      });
-
-      // Обработка успешного ответа, например, сохранение токена
-      console.log('Registration successful:', response.data.token);
-      onClose();
-    } catch (error) {
-      // Обработка ошибок регистрации
-      console.error('Registration error:', error.response.data.message);
-    }
+    registrarion(username, password);
+    onClose();
   };
 
   return (

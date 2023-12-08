@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import styled from '@emotion/styled';
-
+import { login } from './api';
 import Table from './Table';
+
 const FormContainer = styled.div`
   display: ${(props) => (props.isVisible ? 'block' : 'none')};
 `;
@@ -17,14 +17,7 @@ const LoginForm = ({ isVisible, onClose, onSwitchToRegistration, onLogin}) => {
 
     try {
       // Отправка данных на сервер для входа
-      const response = await axios.post('http://localhost:3000/login', {
-        username,
-        password,
-      });
-
-      // Обработка успешного ответа, например, сохранение токена
-      console.log('Login successful:', response.data.token);
-      localStorage.setItem('token', response.data.token);
+      login(username, password);
       
       // Закрываем форму после успешного входа
       onClose();

@@ -54,4 +54,32 @@ const deleteRecord = async (id) => {
   }
 };
 
-export { fetchData, addRecord, updateRecord, deleteRecord };
+const registrarion = async (username, password) => {
+  try {
+    // Отправка данных на сервер для регистрации
+    const response = await api.post('/register/', {
+      username,
+      password,
+    });
+
+    // Обработка успешного ответа, например, сохранение токена
+    console.log('Registration successful:', response.data.token);
+    
+  } catch (error) {
+    // Обработка ошибок регистрации
+    console.error('Registration error:', error.response.data.message);
+  }
+};
+
+const login = async (username, password) => {
+  const response = await api.post('/login/', {
+    username,
+    password,
+  });
+
+  // Обработка успешного ответа, например, сохранение токена
+  console.log('Login successful:', response.data.token);
+  localStorage.setItem('token', response.data.token);
+}
+
+export { fetchData, addRecord, updateRecord, deleteRecord, registrarion, login };

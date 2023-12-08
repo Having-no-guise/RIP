@@ -16,10 +16,10 @@ const commander = require('commander');
 
 
 
-const sequelize = new Sequelize("ripdb", "root", "admin", {
+const sequelize = new Sequelize("rip_db", "root", "admin", {
     dialect: "mysql",
-    host: "localhost",
-    port: "8000",
+    host: "db",
+    port: "3306",
     define: {
         timestamp: false
     }
@@ -32,6 +32,7 @@ app.use(cors({
     credentials: true,
   }));
 
+app.options('*', cors());
 
 
 const Task = sequelize.define("employee", {
@@ -82,10 +83,10 @@ const User = sequelize.define('user', {
     },
 });
 
-app.post('/register', async (req, res) => {
+app.post('/register/', async (req, res) => {
     try {
         const { username, password } = req.body;
-
+        console.log('Received registration request:', { username });
         // Хешируем пароль перед сохранением в базу данных
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -106,7 +107,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login/', async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -226,6 +227,6 @@ io.on('connection', (socket) => {
     });
 });
 
-http.listen(3000, () => {
+http.listen(3000, '0.0.0.0', () => {
     console.log('Сервер запущен на порту 3000');
 });
